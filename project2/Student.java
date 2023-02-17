@@ -1,4 +1,4 @@
-package project;
+package project2;
 
 
 /**
@@ -9,7 +9,11 @@ package project;
  @author Michael Burton
  @author Kirill Vine
  */
-public class Student implements Comparable<Student> {
+public abstract class Student implements Comparable<Student> {
+    final static int FULL_TIME = 12;
+    final static int SOFT_CAP = 16;
+    final static double UNIVERSITY_FEE = 3268;
+    final static double PART_TIME_FEE = .8*UNIVERSITY_FEE;
     private Profile profile;
     private Major major;
     private int creditsCompleted;
@@ -25,7 +29,16 @@ public class Student implements Comparable<Student> {
         creditsCompleted = 0;
     }
 
+    public boolean isValid(int creditsEnrolled){
+        if(creditsEnrolled >= 3 && creditsEnrolled <=24) {
+            return true;
+        } else {
+            return false;
+        }
 
+    } //polymorphism
+    public abstract double tuitionDue(int creditsEnrolled); //polymorphism
+    public abstract boolean isResident(); //polymorphism
 
     /**
      Converts Student to a string representation of the student.
@@ -109,24 +122,5 @@ public class Student implements Comparable<Student> {
         major = m;
     }
 
-    public static void main(String args[]) {
-        String[][] testStringStudent  = {
-                {"John Smith 1/1/2002", "John Smith 1/1/2002"},
-                { "John Smith 1/1/2002", "Alex Jones 1/1/2002" },
-                {"Alex Jones 1/1/2002", "John Smith 1/1/2002"},
-                { "John Smith 1/1/2002", "John Smith 1/2/2002"},
-                {"John Smith 1/2/2002", "John Smith 1/1/2002"}
-        };
-        for (int i = 0; i < testStringStudent.length; i++) {
-            String[] studentAStringList = testStringStudent[i][0].split("\\s+");
-            String[] studentBStringList = testStringStudent[i][1].split("\\s");
-            Student studentA = new Student(
-                    new Profile(studentAStringList[1], studentAStringList[0], new Date(studentAStringList[2])));
-            Student studentB = new Student(
-                    new Profile(studentBStringList[1], studentBStringList[0], new Date(studentBStringList[2])));
-            System.out.println(testStringStudent[i][0] + " compareTo " + testStringStudent[i][1] + ": "
-                    + studentA.compareTo(studentB));
-        }
-    }
 }
 

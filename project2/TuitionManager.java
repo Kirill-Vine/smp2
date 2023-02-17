@@ -1,4 +1,4 @@
-package project;
+package project2;
 
 import java.util.Scanner;
 /**
@@ -9,7 +9,6 @@ import java.util.Scanner;
 public class TuitionManager {
     final static int ADD_COMMAND_SIZE = 6;
     final static int REMOVE_COMMAND_SIZE = 4;
-    final static int PRINT_COMMAND_SIZE = 1;
     final static int CHANGE_MAJOR_COMMAND_SIZE = 5;
     final static int MIN_AGE = 16;
 
@@ -49,16 +48,17 @@ public class TuitionManager {
                 System.out.println("DOB Invalid: " + inputStringList[3] + " is younger than 16");
                 return null;
             }
-            return new Student(new Profile(inputStringList[2], inputStringList[1], dob), tempMajor, credits);
+            //return new Student(new Profile(inputStringList[2], inputStringList[1], dob), tempMajor, credits);
         } else if (!inputStringList[0].equals("A") && inputStringList.length == REMOVE_COMMAND_SIZE
                 || inputStringList.length == CHANGE_MAJOR_COMMAND_SIZE) {
             Date dob = new Date(inputStringList[3]);
             Profile currentStudentProfile = new Profile(inputStringList[2], inputStringList[1], dob);
-            return new Student(currentStudentProfile);
+           // return new Student(currentStudentProfile);
         } else {
             System.out.println("improper command");
             return null;
         }
+        return null;
     }
 
     /**

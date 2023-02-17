@@ -1,4 +1,4 @@
-package project;
+package project2;
 
 /**
  Enum class used to associate months with the amount of days they have.

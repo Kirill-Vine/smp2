@@ -1,4 +1,4 @@
-package project;
+package project2;
 
 /**
  enum variable that associates a major with its school and class code.

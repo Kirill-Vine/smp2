@@ -1,6 +1,4 @@
-package project;
-
-import java.util.Scanner;
+package project2;
 
 /**
  Class that contains a student's first name, last name and Date of Birth
