@@ -18,6 +18,7 @@ public class Resident extends Student {
         scholarship = 0;
     }
 
+
     public double tuitionDue(int creditsEnrolled) {
         double output = 0;
         if(creditsEnrolled < super.FULL_TIME) {
