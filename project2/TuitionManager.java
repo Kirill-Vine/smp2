@@ -116,6 +116,14 @@ public class TuitionManager {
             return null;
         }
     }
+    private void testStudentRosterBeforeEnrollment(Enrollment enrollment, Roster roster, String[] inputStringList) {
+        Student student = setStudentProfile(inputStringList);
+        if(roster.contains(student)) {
+            enrollment.add(setEnrollStudent(inputStringList));
+        } else {
+            System.out.println(student.getProfile().toString() + " is not in roster");
+        }
+    }
 
     void addHelper(String[] inputStringList, Roster roster) {
         Student student = null;
@@ -137,7 +145,8 @@ public class TuitionManager {
             roster.add(student);
         }
     }
-    void printHelper(String[] inputStringList,Roster roster) {
+
+    void printHelper(String[] inputStringList,Roster roster,Enrollment enrollment) {
         if(inputStringList[0].length() == 1) {
             roster.print();
         } else if(inputStringList[0].charAt(1) == 'S') {
@@ -145,8 +154,9 @@ public class TuitionManager {
         } else if(inputStringList[0].charAt(1) == 'C') {
             roster.printBySchoolMajor();
         } else if(inputStringList[0].charAt(1) == 'E') {
-
+            enrollment.print();
         } else if(inputStringList[0].charAt(1) == 'T') {
+            enrollment.printAllTuition(roster);
         }
     }
 
@@ -185,17 +195,18 @@ public class TuitionManager {
             } else if (inputStringList[0].equals("L")) {
                 roster.printAllStudentsInSchool(inputStringList[1]);
             }else if (inputStringList[0].equals("E")) {
-                enrollment.add(setEnrollStudent(inputStringList));
+                testStudentRosterBeforeEnrollment(enrollment,roster,inputStringList);
             } else if(inputStringList[0].equals("D")) {
                 enrollment.remove(setEnrollStudent(inputStringList));
             } else if(inputStringList[0].equals("S")) {
-
+                roster.addScholarship(TuitionManager.setStudentProfile(inputStringList),inputStringList[4]);
             }else if (inputStringList[0].equals("C")) {
                 roster.changeMajor(TuitionManager.setStudentProfile(inputStringList), inputStringList[4]);
             } else if (inputStringList[0].equals("Q")) {
                 System.out.println("Closing Roster...");
                 exited = true;
             } else if(inputStringList[0].equals("SE")) {
+                enrollment.endSemester(roster);
             } else {
                 System.out.println(inputStringList[0] + " is an invalid command");
             }

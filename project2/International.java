@@ -34,4 +34,15 @@ public class International extends NonResident {
         }
         return output;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof International) {
+            International student = (International) o;
+            if (this.getProfile().equals(student.getProfile())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -33,4 +33,15 @@ public class NonResident extends Student {
     public boolean isResident() {
         return false;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof NonResident) {
+            NonResident student = (NonResident) o;
+            if (this.getProfile().equals(student.getProfile())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

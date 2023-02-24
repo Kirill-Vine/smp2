@@ -116,6 +116,9 @@ public abstract class Student implements Comparable<Student> {
     public int getCredits() {
         return creditsCompleted;
     }
+    public void addCredits(int newCredits) {
+        creditsCompleted+= newCredits;
+    }
 
     //setter methods
     public void setMajor(Major m) {

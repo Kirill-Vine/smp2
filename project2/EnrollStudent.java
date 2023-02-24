@@ -7,6 +7,13 @@ public class EnrollStudent {
         profile = p;
         creditsEnrolled = ce;
     }
+
+    public Profile getProfile() {
+        return profile;
+    }
+    public int getCredits() {
+        return creditsEnrolled;
+    }
     @Override
     public boolean equals(Object o) {
         if(o instanceof EnrollStudent) {

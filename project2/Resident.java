@@ -45,4 +45,15 @@ public class Resident extends Student {
     public boolean isResident() {
         return true;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Resident) {
+            Resident student = (Resident) o;
+            if (this.getProfile().equals(student.getProfile())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

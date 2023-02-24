@@ -5,7 +5,6 @@ public class Enrollment {
     private EnrollStudent[] enrollStudents = new EnrollStudent[size];
 
     public void add(EnrollStudent enrollStudent) {
-
         EnrollStudent[] newarr = new EnrollStudent[size + 1];
         for (int i = 0; i < size; i++) {
             if(enrollStudents[i] != null) {
@@ -24,6 +23,14 @@ public class Enrollment {
     public void remove(EnrollStudent enrollStudent) {
         for(int i = 0; i < enrollStudents.length; i++) {
             if(enrollStudents[i] != null && enrollStudents[i].equals(enrollStudent)) {
+                enrollStudents[i] = null;
+                break;
+            }
+        }
+        //move array down so null value is always at the end
+        for(int i = 1; i < enrollStudents.length; i++) {
+            if(enrollStudents[i] != null && enrollStudents[i-1] == null) {
+                enrollStudents[i-1] = enrollStudents[i];
                 enrollStudents[i] = null;
             }
         }
@@ -47,6 +54,28 @@ public class Enrollment {
             }
         }
     } //print the array as is without sorting
+    public void printAllTuition(Roster roster) {
+        for(EnrollStudent enrollStudent: enrollStudents) {
+            for(Student student : roster.getRoster()) {
+                if(student.getProfile().equals(enrollStudent.getProfile())) {
+                    System.out.println(student.toString() + " " + student.tuitionDue());
+                }
+            }
+        }
+
+    }
+
+    public void endSemester(Roster roster) {
+        for(EnrollStudent enrollStudent: enrollStudents) {
+            for(Student student : roster.getRoster()) {
+                if(student.getProfile().equals(enrollStudent.getProfile())) {
+                    student.addCredits(enrollStudent.getCredits());
+                    remove(enrollStudent);
+                    break;
+                }
+            }
+        }
+    }
     public static void main(String[] args){
         Enrollment er = new Enrollment();
         EnrollStudent studd = new EnrollStudent(new Profile("l", "f", new Date("1/1/2000")),1);

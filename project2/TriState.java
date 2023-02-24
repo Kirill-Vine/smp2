@@ -36,4 +36,14 @@ public class TriState extends NonResident {
         }
         return output;
     }
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof TriState) {
+            TriState student = (TriState) o;
+            if (this.getProfile().equals(student.getProfile())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

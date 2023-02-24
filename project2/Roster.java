@@ -168,6 +168,32 @@ public class Roster {
         }
     }
 
+    public void addScholarship(Student student, String scholarshipString) {
+        int scholarship;
+        try{
+            scholarship = Integer.parseInt(scholarshipString);
+        } catch (NumberFormatException nfe) {
+            System.out.println(scholarshipString + " was not a number");
+            return;
+        }
+        if(student instanceof Resident && contains(student)) {
+            int studentID = find(student);
+            Resident resident = (Resident) roster[studentID];
+            resident.awardScholarship(scholarship);
+        } else {
+            System.out.println("Student is not in roster");
+            return;
+        }
+    }
+    public void addCredits(Student student,int credits) {
+        if(contains(student)) {
+            int studentIndex = find(student);
+            roster[studentIndex].addCredits(credits);
+        }
+    }
+
+
+
     /**
      Print all students in the roster of a given school.
      @param school school that each student should be printed from.
@@ -251,6 +277,10 @@ public class Roster {
         } else {
             System.out.println("Roster is empty");
         }
+    }
+
+    public Student[] getRoster() {
+        return roster;
     }
 
 }
