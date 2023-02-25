@@ -35,6 +35,27 @@ public class International extends NonResident {
         return output;
     }
 
+    public boolean getAbroad() {
+        return isStudyingAbroad;
+    }
+
+    @Override
+    public boolean isCreditsValid(int credits) {
+        if(isStudyingAbroad) {
+            if(credits < CREDITS_MIN || credits >FULL_TIME) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            if (credits < FULL_TIME || credits > CREDITS_MAX) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o instanceof International) {
@@ -63,7 +84,11 @@ public class International extends NonResident {
         } else {
             output += "(Senior)";
         }
-        output+="(international)";
+        output+="(international";
+        if(isStudyingAbroad) {
+            output+= " studying abroad";
+        }
+        output+=")";
         return output;
     }
 }

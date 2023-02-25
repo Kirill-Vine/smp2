@@ -7,6 +7,10 @@ public class EnrollStudent {
         profile = p;
         creditsEnrolled = ce;
     }
+    public EnrollStudent(Profile p) {
+        profile = p;
+        creditsEnrolled = 3;
+    }
 
     public Profile getProfile() {
         return profile;

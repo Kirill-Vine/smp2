@@ -13,6 +13,8 @@ public class TuitionManager {
     final static int CHANGE_MAJOR_COMMAND_SIZE = 5;
     final static int MIN_AGE = 16;
     final static int READ_FILE_LENGTH = 2;
+    final static int CREDITS_MIN = 3;
+    final static int CREDITS_MAX = 24;
 
     /**
      Convert an array of strings into a student object
@@ -104,7 +106,8 @@ public class TuitionManager {
             if (tempMajor == null || credits < 0 || dob == null) {
                 return null;
             }
-            if(!inputStringList[6].equals("NY") && !inputStringList[6].equals("CT") && !inputStringList[6].equals("NJ")) {
+            if(!inputStringList[6].toUpperCase().equals("NY") && !inputStringList[6].toUpperCase().equals("CT")
+                    && !inputStringList[6].toUpperCase().equals("NJ")) {
                 System.out.println(inputStringList[6] + " is not in the TriState Area");
                 return null;
             }
@@ -127,11 +130,15 @@ public class TuitionManager {
         }
     }
     private void testStudentRosterBeforeEnrollment(Enrollment enrollment, Roster roster, String[] inputStringList) {
-        Student student = setStudentProfile(inputStringList);
-        if(roster.contains(student)) {
-            enrollment.add(setEnrollStudent(inputStringList));
+        if(inputStringList.length == CHANGE_MAJOR_COMMAND_SIZE) {
+            Student student = setStudentProfile(inputStringList);
+            if (roster.contains(student)) {
+                enrollment.add(setEnrollStudent(inputStringList,roster));
+            } else {
+                System.out.println(student.getProfile().toString() + " is not in roster");
+            }
         } else {
-            System.out.println(student.getProfile().toString() + " is not in roster");
+            System.out.println("Not enough data in command");
         }
     }
 
@@ -172,16 +179,47 @@ public class TuitionManager {
             enrollment.printAllTuition(roster);
         }
     }
-
-    private EnrollStudent setEnrollStudent(String[] inputStringList) {
-        if (inputStringList.length == CHANGE_MAJOR_COMMAND_SIZE) {
+    private EnrollStudent setEnrollStudentProfile(String[] inputStringList, Roster roster) {
+        if(inputStringList.length == REMOVE_COMMAND_SIZE){
+            Date dob = setDate(inputStringList[3]);
+            if (dob == null) {
+                return null;
+            }
+            Profile tempProfile = new Profile(inputStringList[2], inputStringList[1], dob);
+            for(int i = 0; i < roster.getRoster().length;i++) {
+                if(roster.getRoster()[i] != null && roster.getRoster()[i].getProfile().equals(tempProfile)) {
+                    return new EnrollStudent(tempProfile);
+                }
+            }
+            System.out.println(tempProfile.toString() + " is not in roster");
+            return null;
+        }else {
+            System.out.println("missing data in command");
+            return null;
+        }
+    }
+    private EnrollStudent setEnrollStudent(String[] inputStringList,Roster roster) {
+        if(inputStringList.length == CHANGE_MAJOR_COMMAND_SIZE){
             int credits = setCredits(inputStringList[4]);
             Date dob = setDate(inputStringList[3]);
             if (dob == null || credits < 0) {
                 return null;
             }
-            return new EnrollStudent(new Profile(inputStringList[1], inputStringList[2], dob), credits);
+            Profile tempProfile = new Profile(inputStringList[2], inputStringList[1], dob);
+            for(int i = 0; i < roster.getRoster().length;i++) {
+                if(roster.getRoster()[i] != null && roster.getRoster()[i].getProfile().equals(tempProfile)) {
+                    if(roster.getRoster()[i].isCreditsValid(credits)) {
+                        return new EnrollStudent(tempProfile, credits);
+                    } else {
+                        System.out.println(credits+ ": Credit amount invalid");
+                        return null;
+                    }
+                }
+            }
+            System.out.println(tempProfile.toString() + " is not in roster");
+            return null;
         }else {
+            System.out.println("missing data in command");
             return null;
         }
     }
@@ -250,7 +288,7 @@ public class TuitionManager {
             }else if (inputStringList[0].equals("E")) {
                 testStudentRosterBeforeEnrollment(enrollment,roster,inputStringList);
             } else if(inputStringList[0].equals("D")) {
-                enrollment.remove(setEnrollStudent(inputStringList));
+                enrollment.remove(setEnrollStudentProfile(inputStringList,roster));
             } else if(inputStringList[0].equals("S")) {
                 roster.addScholarship(TuitionManager.setStudentProfile(inputStringList),inputStringList[4]);
             }else if (inputStringList[0].equals("C")) {

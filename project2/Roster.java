@@ -58,7 +58,7 @@ public class Roster {
      */
     public boolean contains(Student student) {
         for (int i = 0; i < size; i++) {
-            if (roster[i] != null && student.equals(roster[i])) {
+            if (roster[i] != null && student.getProfile().equals(roster[i].getProfile())) {
                 return true;
             }
         }
@@ -154,17 +154,22 @@ public class Roster {
      @param newMajor String that represents the string.
      */
     public void changeMajor(Student student, String newMajor) {
-        Major tempMajor;
-        if (student == null) {
-            System.out.println("student is null");
+        Major tempMajor = Major.stringToMajor(newMajor);;
+        if(tempMajor==null) {
+            return;
         }
-        int index = find(student);
-        if (index != -1) {
-            tempMajor = Major.stringToMajor(newMajor);
-            if (tempMajor != null) {
-                roster[index].setMajor(Major.stringToMajor(newMajor));
+        if(student != null && contains(student)) {
+            int index = find(student);
+            if (index != -1) {
+                if (tempMajor != null) {
+                    roster[index].setMajor(Major.stringToMajor(newMajor));
+                }
             }
+            System.out.println(student.getProfile() + " major was changed to " + newMajor.toString());
+        } else {
+            System.out.println(student.getProfile() + " is not in roster");
         }
+
     }
 
     public void addScholarship(Student student, String scholarshipString) {

@@ -1,6 +1,7 @@
 package project2;
 
 public class Resident extends Student {
+
     final static double FULL_TIME = 12536;
     final static double PART_TIME_RATE = 404;
     final static int SCHOLARSHIP_MAX = 10000;

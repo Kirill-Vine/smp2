@@ -10,6 +10,8 @@ package project2;
  @author Kirill Vine
  */
 public abstract class Student implements Comparable<Student> {
+    final static int CREDITS_MIN = 3;
+    final static int CREDITS_MAX = 24;
     final static int FULL_TIME = 12;
     final static int SOFT_CAP = 16;
     final static double UNIVERSITY_FEE = 3268;
@@ -39,6 +41,14 @@ public abstract class Student implements Comparable<Student> {
     } //polymorphism
     public abstract double tuitionDue(int creditsEnrolled); //polymorphism
     public abstract boolean isResident(); //polymorphism
+
+    public boolean isCreditsValid(int credits) {
+        if(credits < CREDITS_MIN || credits > CREDITS_MAX) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     /**
      Converts Student to a string representation of the student.
