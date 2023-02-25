@@ -30,6 +30,8 @@ public class NonResident extends Student {
     }
 
 
+
+
     public boolean isResident() {
         return false;
     }
@@ -43,5 +45,26 @@ public class NonResident extends Student {
             }
         }
         return false;
+    }
+    @Override
+    public String toString() {
+        final int FRESHMAN = 30;
+        final int SOPHOMORE = 60;
+        final int JUNIOR = 90;
+        final int SENIOR = 120;
+        String output;
+        output = getProfile().toString() + " (" + getMajor().getClassCode() + " " + getMajor().getMajor() + ") " + getMajor().getSchool()
+                + " creditsCompleted: " + getCredits();
+        if (getCredits() <  FRESHMAN) {
+            output += "(Freshman)";
+        } else if (getCredits() < SOPHOMORE) {
+            output += "(Sophomore)";
+        } else if (getCredits() < JUNIOR) {
+            output += "(Junior)";
+        } else {
+            output += "(Senior)";
+        }
+        output+="(nonresident)";
+        return output;
     }
 }

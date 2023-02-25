@@ -57,18 +57,17 @@ public class Enrollment {
     public void printAllTuition(Roster roster) {
         for(EnrollStudent enrollStudent: enrollStudents) {
             for(Student student : roster.getRoster()) {
-                if(student.getProfile().equals(enrollStudent.getProfile())) {
-                    System.out.println(student.toString() + " " + student.tuitionDue());
+                if(student != null && enrollStudent != null && student.getProfile().equals(enrollStudent.getProfile())) {
+                    System.out.println(student.toString() + " " + student.tuitionDue(enrollStudent.getCredits()));
                 }
             }
         }
-
     }
 
     public void endSemester(Roster roster) {
         for(EnrollStudent enrollStudent: enrollStudents) {
             for(Student student : roster.getRoster()) {
-                if(student.getProfile().equals(enrollStudent.getProfile())) {
+                if(student != null && enrollStudent != null && student.getProfile().equals(enrollStudent.getProfile())) {
                     student.addCredits(enrollStudent.getCredits());
                     remove(enrollStudent);
                     break;

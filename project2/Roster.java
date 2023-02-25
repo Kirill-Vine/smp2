@@ -115,13 +115,12 @@ public class Roster {
             for (int i = 0; i < this.size; i++) {
                 if (this.roster[i] == null) {
                     this.roster[i] = student;
-                    System.out.println(student.getProfile().toString() + " has been added to the roster");
                     return true;
                 }
             }
             return false;
         } else {
-            System.out.println("student is already in list");
+            System.out.println(student.getProfile() + " is already in list");
             return false;
         }
 

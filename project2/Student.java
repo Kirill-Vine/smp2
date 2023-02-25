@@ -51,7 +51,7 @@ public abstract class Student implements Comparable<Student> {
         final int JUNIOR = 90;
         final int SENIOR = 120;
         String output;
-        output = profile.toString() + " (" + major.getClassCode() + " " + major.getMajor() + " " + major.getSchool()
+        output = profile.toString() + " (" + major.getClassCode() + " " + major.getMajor() + ") " + major.getSchool()
                 + " creditsCompleted: " + creditsCompleted;
         if (creditsCompleted <  FRESHMAN) {
             output += "(Freshman)";

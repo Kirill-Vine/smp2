@@ -1,5 +1,6 @@
 package project2;
-
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 /**
  This class controls the UI and determines which Roster method to run given various commands.
@@ -11,6 +12,7 @@ public class TuitionManager {
     final static int REMOVE_COMMAND_SIZE = 4;
     final static int CHANGE_MAJOR_COMMAND_SIZE = 5;
     final static int MIN_AGE = 16;
+    final static int READ_FILE_LENGTH = 2;
 
     /**
      Convert an array of strings into a student object
@@ -55,10 +57,11 @@ public class TuitionManager {
             Date dob = TuitionManager.setDate(inputStringList[3]);
             Major tempMajor = Major.stringToMajor(inputStringList[4]);
             if (tempMajor == null || credits < 0 || dob == null) {
-                System.out.println("major or credits or dob is null");
                 return null;
             }
             return new Resident(new Profile(inputStringList[2], inputStringList[1], dob), tempMajor, credits);
+        } else {
+            System.out.println("Missing data in line");
         }
         return null;
     }
@@ -71,7 +74,10 @@ public class TuitionManager {
                 return null;
             }
             return new NonResident(new Profile(inputStringList[2], inputStringList[1], dob), tempMajor, credits);
+        } else {
+            System.out.println("Missing data in line");
         }
+
         return null;
     }
 
@@ -85,6 +91,8 @@ public class TuitionManager {
             }
             boolean abroad = Boolean.parseBoolean(inputStringList[6]);
             return new International(new Profile(inputStringList[2], inputStringList[1], dob), tempMajor, credits,abroad);
+        } else {
+            System.out.println("Missing data in line");
         }
         return null;
     }
@@ -101,6 +109,8 @@ public class TuitionManager {
                 return null;
             }
             return new TriState(new Profile(inputStringList[2], inputStringList[1], dob), tempMajor, credits,inputStringList[6]);
+        } else {
+            System.out.println("Missing data in line");
         }
         return null;
     }
@@ -125,7 +135,7 @@ public class TuitionManager {
         }
     }
 
-    void addHelper(String[] inputStringList, Roster roster) {
+    private void addHelper(String[] inputStringList, Roster roster) {
         Student student = null;
         if(inputStringList[0].length() == 2) {
             if (inputStringList[0].charAt(1) == 'R') {
@@ -141,12 +151,15 @@ public class TuitionManager {
             System.out.println("improper command format");
             return;
         }
-        if(student != null) {
+        if(student != null && !roster.contains(student)) {
+            System.out.println(student.getProfile().toString() + " was added to roster");
             roster.add(student);
+        } else if (student!= null && roster.contains(student)) {
+            System.out.println(student.getProfile() + " is already in roster");
         }
     }
 
-    void printHelper(String[] inputStringList,Roster roster,Enrollment enrollment) {
+    private void printHelper(String[] inputStringList,Roster roster,Enrollment enrollment) {
         if(inputStringList[0].length() == 1) {
             roster.print();
         } else if(inputStringList[0].charAt(1) == 'S') {
@@ -160,7 +173,7 @@ public class TuitionManager {
         }
     }
 
-    public EnrollStudent setEnrollStudent(String[] inputStringList) {
+    private EnrollStudent setEnrollStudent(String[] inputStringList) {
         if (inputStringList.length == CHANGE_MAJOR_COMMAND_SIZE) {
             int credits = setCredits(inputStringList[4]);
             Date dob = setDate(inputStringList[3]);
@@ -172,7 +185,42 @@ public class TuitionManager {
             return null;
         }
     }
+    private void readFile(String path, Roster roster) {
+        File file = new File(path);
+        Scanner sc;
+         try {
+            sc = new Scanner(file);
+        } catch(FileNotFoundException ex){
+            System.out.println("file does not exist");
+            return;
+        }
 
+        while (sc.hasNextLine()) {
+            Student student = null;
+            String fileInput = sc.nextLine();
+            String[] fileInputList = fileInput.split(",");
+
+            switch(fileInputList[0]) {
+                case "T":
+                    student = TuitionManager.setStudentTriState(fileInputList);
+                    break;
+                case"R":
+                    student = TuitionManager.setStudentResident(fileInputList);
+                    break;
+                case"N":
+                    student = TuitionManager.setStudentNonResident(fileInputList);
+                    break;
+                case"I":
+                    student = TuitionManager.setStudentInternational(fileInputList);
+                    break;
+            }
+            if(!roster.contains(student)) {
+                roster.add(student);
+            }
+
+        }
+
+    }
 
     /**
      Run the UI for the student roster.
@@ -185,13 +233,18 @@ public class TuitionManager {
         System.out.println("Roster Manager running...");
         while (!exited) {
             String input = sc.nextLine();
+            if(input.equals("")) {
+                continue;
+            }
             String[] inputStringList = input.split("\\s+");
-            if(inputStringList[0].charAt(0) == 'A') {
+            if(inputStringList[0].equals("LS") && inputStringList.length ==READ_FILE_LENGTH) {
+                readFile(inputStringList[1],roster);
+            } else if(inputStringList[0].charAt(0) == 'A') {
                 addHelper(inputStringList, roster);
             } else if(inputStringList[0].equals("R")) {
                 roster.remove(TuitionManager.setStudentProfile(inputStringList));
             } else if(inputStringList[0].charAt(0) == 'P') {
-                printHelper(inputStringList, roster);
+                printHelper(inputStringList,roster,enrollment);
             } else if (inputStringList[0].equals("L")) {
                 roster.printAllStudentsInSchool(inputStringList[1]);
             }else if (inputStringList[0].equals("E")) {
