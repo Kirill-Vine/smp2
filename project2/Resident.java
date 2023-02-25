@@ -1,5 +1,13 @@
 package project2;
 
+/**
+ *a class that represents a student that is a resident.
+ *  * @param profile profile of the student.
+ *  * @param major major of the student.
+ *  * @param creditsCompleted the amount of credits completed by the student.
+ *  * @author Michael Burton
+ *  * @author Kiril Vinogradov
+ *  */
 public class Resident extends Student {
 
     final static double FULL_TIME = 12536;
@@ -19,7 +27,11 @@ public class Resident extends Student {
         scholarship = 0;
     }
 
-
+    /**
+     * Calculate The amount the student owes in tuition.
+     * @param creditsEnrolled Amount of credits the student is enrolled in.
+     * @return The tuition the student owes based on the credits enrolled, as a double.
+     */
     public double tuitionDue(int creditsEnrolled) {
         double output = 0;
         if(creditsEnrolled < super.FULL_TIME) {
@@ -36,6 +48,10 @@ public class Resident extends Student {
         return output;
     }
 
+    /**
+     * award the student a certain amount in tuition
+     * @param s amount of money to be awarded to student.
+     */
     public void awardScholarship(int s) {
         scholarship += s;
         if(scholarship > SCHOLARSHIP_MAX) {
@@ -43,10 +59,19 @@ public class Resident extends Student {
         }
     }
 
+    /**
+     * Determine whether student is a resident.
+     * @return true, residents are residents.
+     */
     public boolean isResident() {
         return true;
     }
 
+    /**
+     * determine whether 2 Resident objects are eqiuvalent.
+     * @param o Object to be tested against Resident class.
+     * @return whether the 2 residents have equivalent profiles.
+     */
     @Override
     public boolean equals(Object o) {
         if (o instanceof Resident) {
@@ -57,6 +82,11 @@ public class Resident extends Student {
         }
         return false;
     }
+
+    /**
+     * Convert Resident to a string.
+     * @return Resident as a string.
+     */
     @Override
     public String toString() {
         final int FRESHMAN = 30;

@@ -1,5 +1,14 @@
 package project2;
 
+/**
+ * Class represents an International student.
+ * @param profile Profile of the student.
+ * @param major major of the student.
+ * @param creditsCompleted number of credits completed by the student.
+ * @param stateString states whether student is a state.
+ * @author Kiril Vinogradav
+ * @author Michael Burton
+ */
 public class TriState extends NonResident {
     private String state;
     public TriState (Profile profile, Major major, int creditsCompleted,String stateString) {
@@ -10,6 +19,12 @@ public class TriState extends NonResident {
         super(p);
         state = stateString;
     }
+
+    /**
+     * Calculate The amount the student owes in tuition.
+     * @param creditsEnrolled Amount of credits the student is enrolled in.
+     * @return The tuition the student owes based on the credits enrolled, as a double.
+     */
     @Override
     public double tuitionDue(int creditsEnrolled) {
         double output = 0;
@@ -36,6 +51,12 @@ public class TriState extends NonResident {
         }
         return output;
     }
+
+    /**
+     * determine whether 2 TriState objects are eqiuvalent.
+     * @param o Object to be tested against TriState class.
+     * @return whether the 2 TriState have equivalent profiles.
+     */
     @Override
     public boolean equals(Object o) {
         if (o instanceof TriState) {
@@ -47,6 +68,10 @@ public class TriState extends NonResident {
         return false;
     }
 
+    /**
+     * Convert TriState student to a string.
+     * @return TriState student as a string.
+     */
     @Override
     public String toString() {
         final int FRESHMAN = 30;

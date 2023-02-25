@@ -172,6 +172,11 @@ public class Roster {
 
     }
 
+    /**
+     * Adds finds a resident student in the roster and gives them a scholarship.
+     * @param student student to be awarded the scholarship.
+     * @param scholarshipString amount student should be awarded in scholarship.
+     */
     public void addScholarship(Student student, String scholarshipString) {
         int scholarship;
         try{
@@ -189,6 +194,12 @@ public class Roster {
             return;
         }
     }
+
+    /**
+     * increases a student's creditsCompleted.
+     * @param student student whose credits are added to.
+     * @param credits number of credits added.
+     */
     public void addCredits(Student student,int credits) {
         if(contains(student)) {
             int studentIndex = find(student);
@@ -283,6 +294,10 @@ public class Roster {
         }
     }
 
+    /**
+     * returns the roster variable (student array)
+     * @return roster variable as student array.
+     */
     public Student[] getRoster() {
         return roster;
     }

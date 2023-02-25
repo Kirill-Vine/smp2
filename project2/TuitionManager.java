@@ -16,13 +16,12 @@ public class TuitionManager {
     final static int CREDITS_MIN = 3;
     final static int CREDITS_MAX = 24;
 
-    /**
-     Convert an array of strings into a student object
-     @param inputStringList an array of strings that consists of either [command, first name, last name, date of birth, major, credits]
-     or [command, first name, last name, date of birth].
-     @return the Student class that is created with the inputStringList, and null if the inputString is invalid.
-     */
 
+    /**
+     * Create Date object from a list of strings.
+     * @param inputString string to be converted into date
+     * @return date object if string is valid, null if not.
+     */
     private static Date setDate(String inputString) {
         Date dob = new Date(inputString);
         Date today = new Date();
@@ -38,6 +37,11 @@ public class TuitionManager {
         return dob;
     }
 
+    /**
+     * converts a string into an int
+     * @param inputString string to be turned into credits int.
+     * @return valid credits amount if string is valid, and -1 if not.
+     */
     private static int setCredits(String inputString) {
         int credits;
         try {
@@ -53,6 +57,11 @@ public class TuitionManager {
         return credits;
     }
 
+    /**
+     * convert string into Resident student
+     * @param inputStringList String array to be converted to Resident.
+     * @return Resident object if string array is valid, null if not.
+     */
     private static Resident setStudentResident(String[] inputStringList) {
         if (inputStringList.length == ADD_COMMAND_SIZE) {
             int credits = setCredits(inputStringList[5]);
@@ -67,6 +76,12 @@ public class TuitionManager {
         }
         return null;
     }
+
+    /**
+     * convert string into NonResident student
+     * @param inputStringList String array to be converted to NonResident.
+     * @return NonResident object if string array is valid, null if not.
+     */
     private static NonResident setStudentNonResident(String[] inputStringList) {
         if (inputStringList.length == ADD_COMMAND_SIZE) {
             int credits = setCredits(inputStringList[5]);
@@ -83,6 +98,11 @@ public class TuitionManager {
         return null;
     }
 
+    /**
+     * convert string into International student
+     * @param inputStringList String array to be converted to International.
+     * @return International object if string array is valid, null if not.
+     */
     private static International setStudentInternational(String[] inputStringList) {
         if (inputStringList.length == ADD_COMMAND_SIZE+1) {
             int credits = setCredits(inputStringList[5]);
@@ -98,6 +118,12 @@ public class TuitionManager {
         }
         return null;
     }
+
+    /**
+     * convert string into TriState student
+     * @param inputStringList String array to be converted to TriState.
+     * @return TriState object if string array is valid, null if not.
+     */
     private static TriState setStudentTriState(String[] inputStringList) {
         if (inputStringList.length == ADD_COMMAND_SIZE+1) {
             int credits = setCredits(inputStringList[5]);
@@ -118,6 +144,11 @@ public class TuitionManager {
         return null;
     }
 
+    /**
+     * convert string into Resident student using only profile information
+     * @param inputStringList String array that represents a profile.
+     * @return Resident object if string array is valid, null if not.
+     */
     private static Student setStudentProfile(String[] inputStringList) {
         if (inputStringList.length == REMOVE_COMMAND_SIZE
                 || inputStringList.length == CHANGE_MAJOR_COMMAND_SIZE) {
@@ -129,6 +160,13 @@ public class TuitionManager {
             return null;
         }
     }
+
+    /**
+     * tests whether string inputList is valid before creating an enrollStudent.
+     * @param enrollment Enrollment class that holds enrollment roster.
+     * @param roster roster of all current students.
+     * @param inputStringList string array that represents student being enrolled.
+     */
     private void testStudentRosterBeforeEnrollment(Enrollment enrollment, Roster roster, String[] inputStringList) {
         if(inputStringList.length == CHANGE_MAJOR_COMMAND_SIZE) {
             Student student = setStudentProfile(inputStringList);
@@ -142,6 +180,13 @@ public class TuitionManager {
         }
     }
 
+    /**
+     * creates a new subtree of all commands that begin with A
+     * commands that begin with A are commands that add students to the roster.
+     * Used to decrease line number in run method.
+     * @param inputStringList command to be interpreted
+     * @param roster roster that students will be added to if valid.
+     */
     private void addHelper(String[] inputStringList, Roster roster) {
         Student student = null;
         if(inputStringList[0].length() == 2) {
@@ -166,6 +211,13 @@ public class TuitionManager {
         }
     }
 
+    /**
+     * creates a new subtree of all commands that begin with P
+     * commands that begin with A are commands that print the students in the roster.
+     * Used to decrease line number in run method.
+     * @param inputStringList command to be interpreted
+     * @param roster roster that students will be printed if valid command.
+     */
     private void printHelper(String[] inputStringList,Roster roster,Enrollment enrollment) {
         if(inputStringList[0].length() == 1) {
             roster.print();
@@ -179,6 +231,12 @@ public class TuitionManager {
             enrollment.printAllTuition(roster);
         }
     }
+
+    /**
+     * convert string array into EnrollStudent student using only profile information
+     * @param inputStringList String array that represents a profile.
+     * @return EnrollStudent object if string array is valid, null if not.
+     */
     private EnrollStudent setEnrollStudentProfile(String[] inputStringList, Roster roster) {
         if(inputStringList.length == REMOVE_COMMAND_SIZE){
             Date dob = setDate(inputStringList[3]);
@@ -198,6 +256,12 @@ public class TuitionManager {
             return null;
         }
     }
+
+    /**
+     * convert string array into EnrollStudent
+     * @param inputStringList String array that represents an EnrollStudent.
+     * @return EnrollStudent object if string array is valid, null if not.
+     */
     private EnrollStudent setEnrollStudent(String[] inputStringList,Roster roster) {
         if(inputStringList.length == CHANGE_MAJOR_COMMAND_SIZE){
             int credits = setCredits(inputStringList[4]);
@@ -208,7 +272,7 @@ public class TuitionManager {
             Profile tempProfile = new Profile(inputStringList[2], inputStringList[1], dob);
             for(int i = 0; i < roster.getRoster().length;i++) {
                 if(roster.getRoster()[i] != null && roster.getRoster()[i].getProfile().equals(tempProfile)) {
-                    if(roster.getRoster()[i].isCreditsValid(credits)) {
+                    if(roster.getRoster()[i].isValid(credits)) {
                         return new EnrollStudent(tempProfile, credits);
                     } else {
                         System.out.println(credits+ ": Credit amount invalid");
@@ -223,6 +287,12 @@ public class TuitionManager {
             return null;
         }
     }
+
+    /**
+     *Adds students to a roster determined by an input file.
+     * @param path path that leads to file to be read.
+     * @param roster roster manipulated by the file.
+     */
     private void readFile(String path, Roster roster) {
         File file = new File(path);
         Scanner sc;
@@ -232,12 +302,10 @@ public class TuitionManager {
             System.out.println("file does not exist");
             return;
         }
-
         while (sc.hasNextLine()) {
             Student student = null;
             String fileInput = sc.nextLine();
             String[] fileInputList = fileInput.split(",");
-
             switch(fileInputList[0]) {
                 case "T":
                     student = TuitionManager.setStudentTriState(fileInputList);
@@ -255,9 +323,7 @@ public class TuitionManager {
             if(!roster.contains(student)) {
                 roster.add(student);
             }
-
         }
-
     }
 
     /**

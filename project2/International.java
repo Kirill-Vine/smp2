@@ -1,5 +1,14 @@
 package project2;
 
+/**
+ * Class represents an International student.
+ * @param profile Profile of the student.
+ * @param major major of the student.
+ * @param creditsCompleted number of credits completed by the student.
+ * @param studyAbroad states whether student is studying abroad.
+ * @author Kiril Vinogradav
+ * @author Michael Burton
+ */
 public class International extends NonResident {
     private boolean isStudyingAbroad;
     public International (Profile profile, Major major, int creditsCompleted,boolean studyAbroad) {
@@ -11,6 +20,19 @@ public class International extends NonResident {
         isStudyingAbroad = studyAbroad;
     }
 
+    /**
+     * returns isStudyingAbroad variable
+     * @return value of isStudyingAbroad variable.
+     */
+    public boolean getAbroad() {
+        return isStudyingAbroad;
+    }
+
+    /**
+     * Calculate The amount the student owes in tuition.
+     * @param creditsEnrolled Amount of credits the student is enrolled in.
+     * @return The tuition the student owes based on the credits enrolled, as a double.
+     */
     @Override
     public double tuitionDue(int creditsEnrolled) {
         double output = 0;
@@ -35,20 +57,22 @@ public class International extends NonResident {
         return output;
     }
 
-    public boolean getAbroad() {
-        return isStudyingAbroad;
-    }
 
+    /**
+     * test whether the student has a valid amount of credits.
+     * @param creditsEnrolled number of credits the student has.
+     * @return true if student is above credit minimum, and below credit maximum.
+     */
     @Override
-    public boolean isCreditsValid(int credits) {
+    public boolean isValid(int creditsEnrolled) {
         if(isStudyingAbroad) {
-            if(credits < CREDITS_MIN || credits >FULL_TIME) {
+            if(creditsEnrolled < CREDITS_MIN || creditsEnrolled >FULL_TIME) {
                 return false;
             } else {
                 return true;
             }
         } else {
-            if (credits < FULL_TIME || credits > CREDITS_MAX) {
+            if (creditsEnrolled < FULL_TIME || creditsEnrolled > CREDITS_MAX) {
                 return false;
             } else {
                 return true;
@@ -56,6 +80,11 @@ public class International extends NonResident {
         }
     }
 
+    /**
+     * test whether 2 International objects are equivalent.
+     * @param o Object to be tested against International class.
+     * @return true if both International classes have equivalent profiles.
+     */
     @Override
     public boolean equals(Object o) {
         if (o instanceof International) {
@@ -66,6 +95,11 @@ public class International extends NonResident {
         }
         return false;
     }
+
+    /**
+     * converts International object as a string
+     * @return string that represents International object.
+     */
     @Override
     public String toString() {
         final int FRESHMAN = 30;

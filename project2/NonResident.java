@@ -1,5 +1,13 @@
 package project2;
 
+/**
+ *a class that represents a student that is a non-resident.
+ *  * @param profile profile of the student.
+ *  * @param major major of the student.
+ *  * @param creditsCompleted the amount of credits completed by the student.
+ *  * @author Michael Burton
+ *  * @author Kiril Vinogradov
+ *  */
 public class NonResident extends Student {
     final static double FULL_TIME = 29737;
     final static double PART_TIME_RATE = 966;
@@ -14,6 +22,11 @@ public class NonResident extends Student {
         super(p);
     }
 
+    /**
+     * Calculate The amount the student owes in tuition.
+     * @param creditsEnrolled Amount of credits the student is enrolled in.
+     * @return The tuition the student owes based on the credits enrolled, as a double.
+     */
     public double tuitionDue(int creditsEnrolled) {
         double output = 0;
         if(creditsEnrolled < super.FULL_TIME) {
@@ -29,13 +42,19 @@ public class NonResident extends Student {
         return output;
     }
 
-
-
-
+    /**
+     * returns whether student is a resident.
+     * @return false, all non-resident students are not residents.
+     */
     public boolean isResident() {
         return false;
     }
 
+    /**
+     * determine whether 2 NonResident are equivalent.
+     * @param o Object to be tested against NonResident class.
+     * @return whether the 2 NonResident classes have equivalent profiles.
+     */
     @Override
     public boolean equals(Object o) {
         if (o instanceof NonResident) {
@@ -46,6 +65,11 @@ public class NonResident extends Student {
         }
         return false;
     }
+
+    /**
+     * converts NonResident to a string
+     * @return NonResident in the form of a string.
+     */
     @Override
     public String toString() {
         final int FRESHMAN = 30;

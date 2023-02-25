@@ -31,19 +31,18 @@ public abstract class Student implements Comparable<Student> {
         creditsCompleted = 0;
     }
 
-    public boolean isValid(int creditsEnrolled){
-        if(creditsEnrolled >= 3 && creditsEnrolled <=24) {
-            return true;
-        } else {
-            return false;
-        }
 
-    } //polymorphism
+//polymorphism
     public abstract double tuitionDue(int creditsEnrolled); //polymorphism
     public abstract boolean isResident(); //polymorphism
 
-    public boolean isCreditsValid(int credits) {
-        if(credits < CREDITS_MIN || credits > CREDITS_MAX) {
+    /**
+     * returns whether the credits enrolled is valid.
+     * @param creditsEnrolled number of credits student is enrolled in.
+     * @return return true if creditsEnrolled is less than the max and greater than the min.
+     */
+    public boolean isValid(int creditsEnrolled) {
+        if(creditsEnrolled < CREDITS_MIN || creditsEnrolled > CREDITS_MAX) {
             return false;
         } else {
             return true;
@@ -126,11 +125,19 @@ public abstract class Student implements Comparable<Student> {
     public int getCredits() {
         return creditsCompleted;
     }
+
+    /**
+     * adds credits to the amount of students.
+     * @param newCredits credits to be added to the student.
+     */
     public void addCredits(int newCredits) {
         creditsCompleted+= newCredits;
     }
 
-    //setter methods
+    /**
+     * reassign the major of a student.
+     * @param m new major of the student.
+     */
     public void setMajor(Major m) {
         major = m;
     }
