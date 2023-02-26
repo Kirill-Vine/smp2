@@ -74,3 +74,13 @@ PE
 D John Doe 11/2/2005
 D John Doe 1/2/2007
 E John Doe 1/2/2007 11
+PT
+S
+S Roy Brooks 9/9/1999 10000
+S Carl Brown 10/17/2004
+S Carl Brown 10/7/2004 10001
+S Carl Brown 10/7/2004 0
+S Carl Brown 10/7/2004 xxx
+S Carl Brown 10/7/2004 10000
+S John Doe 1/2/2007 800
+PT

@@ -117,17 +117,45 @@ public class Enrollment {
      */
     public void printAllTuition(Roster roster) {
         DecimalFormat df = new DecimalFormat("###,###,###.00");
+        String output;
         System.out.println("** Tuition due **");
         for(EnrollStudent enrollStudent: enrollStudents) {
             for(Student student : roster.getRoster()) {
                 if(student != null && enrollStudent != null && student.getProfile().equals(enrollStudent.getProfile())) {
-                    System.out.println(student.toString() + " $" + df.format(student.tuitionDue(enrollStudent.getCredits())));
+                    output = student.getProfile().toString();
+                    if(student instanceof Resident) {
+                        output += " (Resident)";
+                    } else if (student instanceof TriState) {
+                        TriState triState = (TriState) student;
+                        output += "(Tri-State " + triState.getState().toUpperCase() + ")";
+
+                    } else if(student instanceof International) {
+                        International international = (International) student;
+                        output+="(International student ";
+                        if(international.getAbroad()) {
+                            output+="studying abroad)";
+                        } else {
+                            output+=")";
+                        }
+                    }else if(student instanceof NonResident) {
+                        output += " (Non-Resident)";
+                    }
+                    output+= " credits enrolled: " + enrollStudent.getCredits()+" tuitionDue: $"
+                                    + df.format(student.tuitionDue(enrollStudent.getCredits()));
+                    System.out.println(output);
                 }
             }
         }
         System.out.println("** tuition due end **");
     }
 
+    /**
+     * Returns the current enrollment roster
+     * @return the current enrollment roster
+     */
+    public EnrollStudent[] getEnrollment() {
+        return enrollStudents;
+    }
     /**
      * Add credits to each student enrolled in the enrollment roster as the semester ends.
      * @param roster roster of students to have credits addded.

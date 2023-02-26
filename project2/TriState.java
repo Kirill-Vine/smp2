@@ -21,6 +21,14 @@ public class TriState extends NonResident {
     }
 
     /**
+     * return the state variable.
+     * @return state variable.
+     */
+    public String getState() {
+        return state;
+    }
+
+    /**
      * Calculate The amount the student owes in tuition.
      * @param creditsEnrolled Amount of credits the student is enrolled in.
      * @return The tuition the student owes based on the credits enrolled, as a double.
@@ -28,24 +36,25 @@ public class TriState extends NonResident {
     @Override
     public double tuitionDue(int creditsEnrolled) {
         double output = 0;
-        if(creditsEnrolled < super.FULL_TIME) {
-            output+= FULL_TIME;
+        if(creditsEnrolled >= Student.FULL_TIME) {
+            output+= super.FULL_TIME;
             output+= super.UNIVERSITY_FEE;
             if(creditsEnrolled > super.SOFT_CAP) {
-                output+=PART_TIME_RATE*(super.SOFT_CAP -creditsEnrolled);
+                output+=PART_TIME_RATE*(creditsEnrolled- super.SOFT_CAP);
+            }
+            switch(state.toUpperCase()) {
+                case "NY":
+                    output-=4000;
+                    break;
+                case "CT":
+                    output-=5000;
+                    break;
             }
         } else {
-            output+= (creditsEnrolled * PART_TIME_RATE);
-            output+= super.PART_TIME_FEE;
+            output+= (creditsEnrolled * super.PART_TIME_RATE);
+            output+= Student.PART_TIME_FEE;
         }
-        switch(state.toUpperCase()) {
-            case "NY":
-                output-=4000;
-                break;
-            case "CT":
-                output-=5000;
-                break;
-        }
+
         if(output < 0) {
             output=  0;
         }

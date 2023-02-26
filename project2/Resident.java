@@ -10,9 +10,9 @@ package project2;
  *  */
 public class Resident extends Student {
 
-    final static double FULL_TIME = 12536;
-    final static double PART_TIME_RATE = 404;
-    final static int SCHOLARSHIP_MAX = 10000;
+    public final static double FULL_TIME = 12536;
+    public final static double PART_TIME_RATE = 404;
+    public final static int SCHOLARSHIP_MAX = 10000;
 
     //12 is fulltime
     //16 pays extra
@@ -34,17 +34,20 @@ public class Resident extends Student {
      */
     public double tuitionDue(int creditsEnrolled) {
         double output = 0;
-        if(creditsEnrolled < super.FULL_TIME) {
+        if(creditsEnrolled > super.FULL_TIME) {
             output+= FULL_TIME;
             output+= super.UNIVERSITY_FEE;
             if(creditsEnrolled > super.SOFT_CAP) {
-                output+=PART_TIME_RATE*(super.SOFT_CAP -creditsEnrolled);
+                output+=PART_TIME_RATE*(creditsEnrolled-super.SOFT_CAP);
             }
         } else {
             output+= (creditsEnrolled * PART_TIME_RATE);
             output+= super.PART_TIME_FEE;
         }
         output-=scholarship;
+        if(output < 0) {
+            output = 0;
+        }
         return output;
     }
 
@@ -53,10 +56,17 @@ public class Resident extends Student {
      * @param s amount of money to be awarded to student.
      */
     public void awardScholarship(int s) {
-        scholarship += s;
-        if(scholarship > SCHOLARSHIP_MAX) {
-            scholarship = SCHOLARSHIP_MAX;
+        if(s < 1 || s > Resident.SCHOLARSHIP_MAX) {
+            System.out.println(scholarship + ": invalid scholarship amount");
+            return;
         }
+        if(s+scholarship > SCHOLARSHIP_MAX) {
+            System.out.println(s+scholarship + " sum");
+            System.out.println("an additional scholarship of " + s + " will go over the maximum scholarship limit of " + SCHOLARSHIP_MAX);
+            return;
+        }
+        System.out.println(super.getProfile() + ": scholarship amount updated");
+        scholarship += s;
     }
 
     /**

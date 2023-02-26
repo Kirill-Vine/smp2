@@ -29,11 +29,11 @@ public class NonResident extends Student {
      */
     public double tuitionDue(int creditsEnrolled) {
         double output = 0;
-        if(creditsEnrolled < super.FULL_TIME) {
+        if(creditsEnrolled >= super.FULL_TIME) {
             output+= FULL_TIME;
-            output+= super.UNIVERSITY_FEE;
+            output+= super.PART_TIME_FEE;
             if(creditsEnrolled > super.SOFT_CAP) {
-                output+=PART_TIME_RATE*(super.SOFT_CAP -creditsEnrolled);
+                output+=PART_TIME_RATE*(creditsEnrolled-super.SOFT_CAP);
             }
         } else {
             output+= (creditsEnrolled * PART_TIME_RATE);

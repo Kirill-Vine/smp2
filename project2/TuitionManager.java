@@ -13,8 +13,6 @@ public class TuitionManager {
     final static int CHANGE_MAJOR_COMMAND_SIZE = 5;
     final static int MIN_AGE = 16;
     final static int READ_FILE_LENGTH = 2;
-    final static int CREDITS_MIN = 3;
-    final static int CREDITS_MAX = 24;
 
 
     /**
@@ -170,7 +168,8 @@ public class TuitionManager {
     private void testStudentRosterBeforeEnrollment(Enrollment enrollment, Roster roster, String[] inputStringList) {
         if(inputStringList.length == CHANGE_MAJOR_COMMAND_SIZE) {
             Student student = setStudentProfile(inputStringList);
-            if (roster.contains(student)) {
+
+            if(roster.contains(student)){
                 enrollment.add(setEnrollStudent(inputStringList,roster));
             } else {
                 System.out.println(student.getProfile().toString() + " is not in roster");
@@ -355,8 +354,8 @@ public class TuitionManager {
                 testStudentRosterBeforeEnrollment(enrollment,roster,inputStringList);
             } else if(inputStringList[0].equals("D")) {
                 enrollment.remove(setEnrollStudentProfile(inputStringList,roster));
-            } else if(inputStringList[0].equals("S")) {
-                roster.addScholarship(TuitionManager.setStudentProfile(inputStringList),inputStringList[4]);
+            } else if(inputStringList[0].equals("S") && inputStringList.length == CHANGE_MAJOR_COMMAND_SIZE) {
+                roster.addScholarship(enrollment, TuitionManager.setStudentProfile(inputStringList),inputStringList[4]);
             }else if (inputStringList[0].equals("C")) {
                 roster.changeMajor(TuitionManager.setStudentProfile(inputStringList), inputStringList[4]);
             } else if (inputStringList[0].equals("Q")) {

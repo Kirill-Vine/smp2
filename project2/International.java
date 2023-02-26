@@ -10,6 +10,7 @@ package project2;
  * @author Michael Burton
  */
 public class International extends NonResident {
+    public final static int INSURANCE = 2650;
     private boolean isStudyingAbroad;
     public International (Profile profile, Major major, int creditsCompleted,boolean studyAbroad) {
         super(profile,major,creditsCompleted);
@@ -36,23 +37,15 @@ public class International extends NonResident {
     @Override
     public double tuitionDue(int creditsEnrolled) {
         double output = 0;
-        if(isStudyingAbroad) {
-            if(creditsEnrolled < super.FULL_TIME) {
-                output+=super.UNIVERSITY_FEE;
-            } else {
-                output+=super.PART_TIME_FEE;
+
+        if(!isStudyingAbroad) {
+            output += super.FULL_TIME + Student.UNIVERSITY_FEE + INSURANCE;
+            if(creditsEnrolled > Student.SOFT_CAP) {
+                output+=super.PART_TIME_RATE*(creditsEnrolled-Student.SOFT_CAP);
             }
         } else {
-            if (creditsEnrolled < super.FULL_TIME) {
-                output += FULL_TIME;
-                output += super.UNIVERSITY_FEE;
-                if (creditsEnrolled > super.SOFT_CAP) {
-                    output += PART_TIME_RATE * (super.SOFT_CAP - creditsEnrolled);
-                }
-            } else {
-                output += (creditsEnrolled * PART_TIME_RATE);
-                output += super.PART_TIME_FEE;
-            }
+            output+=INSURANCE + Student.UNIVERSITY_FEE;
+
         }
         return output;
     }
@@ -66,13 +59,13 @@ public class International extends NonResident {
     @Override
     public boolean isValid(int creditsEnrolled) {
         if(isStudyingAbroad) {
-            if(creditsEnrolled < CREDITS_MIN || creditsEnrolled >FULL_TIME) {
+            if(creditsEnrolled < CREDITS_MIN || creditsEnrolled >Student.FULL_TIME) {
                 return false;
             } else {
                 return true;
             }
         } else {
-            if (creditsEnrolled < FULL_TIME || creditsEnrolled > CREDITS_MAX) {
+            if (creditsEnrolled < Student.FULL_TIME || creditsEnrolled > CREDITS_MAX) {
                 return false;
             } else {
                 return true;

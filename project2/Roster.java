@@ -73,7 +73,7 @@ public class Roster {
     private int find(Student student) {
         if (contains(student)) {
             for (int i = 0; i < size; i++) {
-                if (student.equals(roster[i])) {
+                if (student.getProfile().equals(roster[i].getProfile())) {
                     return i;
                 }
             }
@@ -177,7 +177,7 @@ public class Roster {
      * @param student student to be awarded the scholarship.
      * @param scholarshipString amount student should be awarded in scholarship.
      */
-    public void addScholarship(Student student, String scholarshipString) {
+    public void addScholarship(Enrollment enrollment, Student student, String scholarshipString) {
         int scholarship;
         try{
             scholarship = Integer.parseInt(scholarshipString);
@@ -185,13 +185,24 @@ public class Roster {
             System.out.println(scholarshipString + " was not a number");
             return;
         }
-        if(student instanceof Resident && contains(student)) {
+        if(contains(student) && enrollment.contains(new EnrollStudent(student.getProfile()))) {
             int studentID = find(student);
-            Resident resident = (Resident) roster[studentID];
-            resident.awardScholarship(scholarship);
+            int creditsEnrolled = 0;
+            //find amount of credits student is currently taking
+            for(EnrollStudent es : enrollment.getEnrollment()){
+                if(es!= null && es.getProfile().equals(student.getProfile())){
+                    creditsEnrolled = es.getCredits();
+                }
+            }
+            //if student is resident and full time award scholarship
+            if(!(roster[studentID] instanceof Resident) || creditsEnrolled < Student.FULL_TIME) {
+                System.out.println(student.getProfile() + " is ineligible for a scholarship");
+            } else {
+                Resident resident = (Resident) roster[studentID];
+                resident.awardScholarship(scholarship);
+            }
         } else {
             System.out.println("Student is not in roster");
-            return;
         }
     }
 
