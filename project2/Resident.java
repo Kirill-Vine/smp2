@@ -6,7 +6,7 @@ package project2;
  *  * @param major major of the student.
  *  * @param creditsCompleted the amount of credits completed by the student.
  *  * @author Michael Burton
- *  * @author Kiril Vinogradov
+ *  * @author Kirill Vine
  *  */
 public class Resident extends Student {
 

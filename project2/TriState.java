@@ -6,7 +6,7 @@ package project2;
  * @param major major of the student.
  * @param creditsCompleted number of credits completed by the student.
  * @param stateString states whether student is a state.
- * @author Kiril Vinogradav
+ * @author Kirill Vine
  * @author Michael Burton
  */
 public class TriState extends NonResident {

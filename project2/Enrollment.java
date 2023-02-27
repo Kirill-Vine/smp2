@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
  * Uses an array of @EnrollStudent objects to keep manage the data.
  *
  * @author Michael Burton
- * @author Kirill Vinogradov
+ * @author Kirill Vine
  */
 public class Enrollment {
 

@@ -8,7 +8,7 @@ import java.util.Calendar;
  * A string written in the syntax "mm/dd/yyyy"
  *
  * @author Michael Burton
- * @author Kirill Vinogradav
+ * @author Kirill Vine
  *
  */
 

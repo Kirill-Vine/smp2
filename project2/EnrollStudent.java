@@ -5,7 +5,7 @@ package project2;
  * @param p Profile of the enrolled student.
  * @param ce number of credits enrolled students is taking.
  * @author Michael Burton
- * @author Kiril Vinogradov
+ * @author Kirill Vine
  */
 public class EnrollStudent {
     private Profile profile;
