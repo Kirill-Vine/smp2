@@ -40,10 +40,10 @@ public class Enrollment {
     } //add to the end of array
 
     /**
-     * Remove a student from the roster if he is present.
-     * @param enrollStudent student to be removed from the roster.
+     * remove class for UI purposes
+     * @param enrollStudent student to be removed from the roster
      */
-    public void remove(EnrollStudent enrollStudent) {
+    public void removeUI(EnrollStudent enrollStudent){
         if(enrollStudent == null) {
             return;
         }
@@ -51,9 +51,17 @@ public class Enrollment {
             System.out.println(enrollStudent.getProfile() + " is not in enrollment roster");
             return;
         }
+        System.out.println(enrollStudent.getProfile() + " removed from enrollment");
+        remove(enrollStudent);
+    }
+
+    /**
+     * Remove a student from the roster if he is present.
+     * @param enrollStudent student to be removed from the roster.
+     */
+    public void remove(EnrollStudent enrollStudent) {
         for(int i = 0; i < enrollStudents.length; i++) {
             if(enrollStudents[i] != null && enrollStudents[i].equals(enrollStudent)) {
-                System.out.println(enrollStudent.getProfile() + " removed from enrollment");
                 enrollStudents[i] = null;
                 break;
             }
@@ -158,24 +166,36 @@ public class Enrollment {
     }
     /**
      * Add credits to each student enrolled in the enrollment roster as the semester ends.
-     * @param roster roster of students to have credits addded.
+     * @param roster roster of students to have credits added.
      */
     public void endSemester(Roster roster) {
-        for(EnrollStudent enrollStudent: enrollStudents) {
-            for(Student student : roster.getRoster()) {
-                if(student != null && enrollStudent != null && student.getProfile().equals(enrollStudent.getProfile())) {
-                    student.addCredits(enrollStudent.getCredits());
-                    remove(enrollStudent);
-                    break;
+        Student [] rosterList = roster.getRoster();
+        if(isEmpty()){
+            System.out.println("Enrollment roster is empty");
+            return;
+        }
+        for(int i = 0; i < enrollStudents.length; i++) {
+            for(int j = 0; j < rosterList.length; j++) {
+                if(enrollStudents[i] != null && rosterList[j] != null && rosterList[j].getProfile().equals(enrollStudents[i].getProfile())) {
+                    rosterList[j].addCredits(enrollStudents[i].getCredits());
+                    remove(enrollStudents[i]);
+                    if(rosterList[j].getCredits()>=120){
+                        System.out.println(rosterList[j].getProfile().toString() + " has graduated with " + rosterList[j].getCredits() + " credits!");
+                    }
                 }
             }
         }
     }
     public static void main(String[] args){
-        Enrollment er = new Enrollment();
-        EnrollStudent studd = new EnrollStudent(new Profile("l", "f", new Date("1/1/2000")),1);
-        er.add(studd);
-        er.remove(studd);
-        er.print();
+        Roster roster = new Roster();
+        Profile profile = new Profile("l", "f", new Date("12/31/2000"));
+        Student student = new Resident(profile, Major.CS, 50);
+        Enrollment enrollment = new Enrollment();
+        EnrollStudent enrollStudent = new EnrollStudent(profile, 100);
+        roster.add(student);
+        enrollment.add(enrollStudent);
+        enrollment.endSemester(roster);
+        System.out.println(student.getCredits());
+
     }
 }

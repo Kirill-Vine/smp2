@@ -249,11 +249,10 @@ public class TuitionManager {
                 }
             }
             System.out.println(tempProfile.toString() + " is not in roster");
-            return null;
         }else {
             System.out.println("missing data in command");
-            return null;
         }
+        return null;
     }
 
     /**
@@ -280,11 +279,10 @@ public class TuitionManager {
                 }
             }
             System.out.println(tempProfile.toString() + " is not in roster");
-            return null;
         }else {
             System.out.println("missing data in command");
-            return null;
         }
+        return null;
     }
 
     /**
@@ -353,7 +351,7 @@ public class TuitionManager {
             }else if (inputStringList[0].equals("E")) {
                 testStudentRosterBeforeEnrollment(enrollment,roster,inputStringList);
             } else if(inputStringList[0].equals("D")) {
-                enrollment.remove(setEnrollStudentProfile(inputStringList,roster));
+                enrollment.removeUI(setEnrollStudentProfile(inputStringList,roster));
             } else if(inputStringList[0].equals("S") && inputStringList.length == CHANGE_MAJOR_COMMAND_SIZE) {
                 roster.addScholarship(enrollment, TuitionManager.setStudentProfile(inputStringList),inputStringList[4]);
             }else if (inputStringList[0].equals("C")) {
